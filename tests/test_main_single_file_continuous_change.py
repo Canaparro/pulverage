@@ -4,7 +4,7 @@ from pulverage import main
 def test_parse_git_diff():
     parsed_result = main.parse_git_diff("resources/single_file_continuous_change/changes.diff")
     assert parsed_result == {
-        'token_store/service/module1.py': {range(1, 10)}
+        'token_store/service/module1.py': {1, 2, 3, 4, 5, 6, 7, 8, 9}
     }
 
 
