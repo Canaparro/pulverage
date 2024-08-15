@@ -3,43 +3,7 @@ from collections import defaultdict
 from lxml import etree
 from lxml.etree import _Element
 
-
-def parse_git_diff(diff_file_path: str) -> dict[str, set[int]]:
-    parsed_result = defaultdict(set)
-    with open(diff_file_path, encoding="utf-8") as diff_file:
-        current_file = None
-        current_line_number = -1
-        end_line = None
-        for line in diff_file:
-            if current_line_number > -1:
-                current_line_number += 1
-                if current_line_number == end_line:
-                    current_line_number = -1
-                    current_file = None
-                    end_line = None
-            if line.startswith("+++ b/") and line.endswith(".py\n"):
-                current_file = line[6:].strip()
-                continue
-            if not current_file:
-                continue
-            if line.startswith("@@"):
-                line_changes_coordinates = line.split()[2]
-                start_line, line_count = map(
-                    int, line_changes_coordinates[1:].split(",")
-                )
-                end_line = start_line + line_count
-                current_line_number = start_line - 1
-                continue
-            if current_line_number > -1 and line.startswith("+"):
-                parsed_result[current_file].add(current_line_number)
-                continue
-            if current_line_number > -1 and line.startswith("-"):
-                current_line_number -= 1
-                continue
-            if current_line_number > -1 and line == "\\ No newline at end of file\n":
-                current_line_number -= 1
-
-    return parsed_result
+from pulverage.diff_parser import parse_git_diff
 
 
 def parse_coverage(
