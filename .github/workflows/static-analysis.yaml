@@ -20,6 +20,16 @@ jobs:
       with:
         python-version: '3.12'
 
+    - name: Check current HEAD commit
+      run: echo "Current HEAD commit SHA is ${{ github.sha }}"
+
+    - name: Check the current branch or tag
+      run: echo "Current ref is ${{ github.ref }}"
+
+    - name: Determine target branch for PR
+      if: github.event_name == 'pull_request'
+      run: echo "The pull request is being merged into ${{ github.event.pull_request.base.ref }}"
+
     - name: Install poetry
       run: pip install poetry
 
