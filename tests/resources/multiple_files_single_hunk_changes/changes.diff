@@ -1,0 +1,29 @@
+diff --git a/Makefile b/Makefile
+index 380601d..61cd390 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,2 +1,5 @@
+ cov:
+-	poetry run pytest --cov=. --cov-report=xml tests/
+\ No newline at end of file
++	poetry run pytest --cov=. --cov-report=xml tests/
++
++diff:
++	git diff master >> changes.diff
+\ No newline at end of file
+diff --git a/src/module1.py b/src/module1.py
+index 11569bd..f0dac46 100644
+--- a/src/module1.py
++++ b/src/module1.py
+@@ -7,6 +7,11 @@ def add(x, y):
+ def multiply(x, y):
+     """Returns the multiplication between x and y."""
+     return x * y
++
++def exponential(x, y):
++    """Returns the exponential of x to the power of y."""
++    return x ** y
++
+ def subtract(x, y):
+     """Returns the difference between x and y."""
+     return x - y
