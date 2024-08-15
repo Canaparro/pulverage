@@ -8,6 +8,13 @@ NEW_FILE_TOKEN = "+++ b/"
 
 
 def parse_git_diff(diff_file_path: str) -> dict[str, set[int]]:
+    """
+    Parses a git diff file and extracts the line numbers that were changed.
+
+    :param diff_file_path:
+    :return: a dictionary with the line numbers that were changed for each filename
+    included in the diff
+    """
     with open(diff_file_path, encoding="utf-8") as diff_file:
         parsed_result: dict[str, set[int]] = defaultdict(set)
         current_file = None
@@ -20,13 +27,14 @@ def parse_git_diff(diff_file_path: str) -> dict[str, set[int]]:
             elif line.startswith(HUNK_HEADER_TOKEN):
                 current_line_number, end_line = parse_hunk_start_and_end(line)
             elif current_line_number > -1:
-                current_line_number = evaluate_diff_line(
-                    parsed_result[current_file], current_line_number, line
-                )
                 if current_line_number == end_line + 1:
                     current_line_number = -1
                     current_file = None
                     end_line = None
+                else:
+                    current_line_number = evaluate_diff_line(
+                        parsed_result[current_file], current_line_number, line
+                    )
 
         return parsed_result
 
@@ -40,7 +48,7 @@ def parse_hunk_start_and_end(line: str) -> tuple[int, int]:
     and the number of lines in the hunk.
 
     :param line:
-    :return a tuple with the start and end line of the hunk:
+    :return: a tuple with the start and end line of the hunk
     """
     line_changes_coordinates = line.split()[2]
     start_line, line_count = map(int, line_changes_coordinates[1:].split(","))
