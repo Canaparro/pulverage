@@ -1,0 +1,50 @@
+diff --git a/src/module1.py b/src/module1.py
+index 11569bd..b012a7d 100644
+--- a/src/module1.py
++++ b/src/module1.py
+@@ -1,4 +1,20 @@
+-# math_operations.py
++import math
++
++
++def modulus(x, y):
++    """Returns the remainder of the division of x by y."""
++    return x % y
++
++
++def square_root(x):
++    """Returns the square root of x."""
++    return math.sqrt(x)
++
++
++def logarithm(x, base=10):
++    """Returns the logarithm of x to a given base."""
++    return math.log(x, base)
++
+ 
+ def add(x, y):
+     """Returns the sum of x and y."""
+@@ -13,3 +29,23 @@ def subtract(x, y):
+ def divide(x, y):
+     """Returns the division between x and y."""
+     return x / y
++
++
++def exponential(x, y):
++    """Returns the exponential of x to the power of y."""
++    return x ** y
++
++
++def sine(x):
++    """Returns the sine of x (x in radians)."""
++    return math.sin(x)
++
++
++def cosine(x):
++    """Returns the cosine of x (x in radians)."""
++    return math.cos(x)
++
++
++def tangent(x):
++    """Returns the tangent of x (x in radians)."""
++    return math.tan(x)

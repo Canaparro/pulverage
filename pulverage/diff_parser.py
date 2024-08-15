@@ -17,16 +17,16 @@ def parse_git_diff(diff_file_path: str) -> dict[str, set[int]]:
             if not current_file:
                 if line.startswith(NEW_FILE_TOKEN) and line.endswith(PYTHON_FILE_TOKEN):
                     current_file = line[6:].strip()
+            elif line.startswith(HUNK_HEADER_TOKEN):
+                current_line_number, end_line = parse_hunk_start_and_end(line)
             elif current_line_number > -1:
                 current_line_number = evaluate_diff_line(
                     parsed_result[current_file], current_line_number, line
                 )
-                if current_line_number == end_line:
+                if current_line_number == end_line + 1:
                     current_line_number = -1
                     current_file = None
                     end_line = None
-            elif line.startswith(HUNK_HEADER_TOKEN):
-                current_line_number, end_line = parse_hunk_start_and_end(line)
 
         return parsed_result
 
