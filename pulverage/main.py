@@ -33,12 +33,12 @@ def parse_coverage(files_to_get_coverage: set[str], coverage_file_path: str):
 
 
 def compare_coverage(parsed_diff, parsed_coverage):
-    covered_lines_in_diff = {}
+    uncovered_lines_in_diff = {}
     for filename, changed_lines in parsed_diff.items():
         if filename in parsed_coverage:
-            covered_lines = parsed_coverage[filename]
-            covered_lines_in_diff[filename] = set(*changed_lines) & covered_lines
-    return covered_lines_in_diff
+            uncovered_lines = parsed_coverage[filename]
+            uncovered_lines_in_diff[filename] = set(*changed_lines) & uncovered_lines
+    return uncovered_lines_in_diff
 
 
 def compute_missing_coverage(path_to_diff, path_to_coverage):
